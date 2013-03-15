@@ -162,6 +162,7 @@ module Authorization
       model_or_proxy = parent_context_without_namespace ?
            instance_variable_get(:"@#{parent_context_without_namespace.to_s.singularize}").send(context_without_namespace.to_sym) :
            context_without_namespace.to_s.classify.constantize
+      model_or_proxy = (Rails.version < "3.0" ? model_or_proxy : model_or_proxy.scoped)
       instance_var = :"@#{context_without_namespace.to_s.singularize}"
       instance_variable_set(instance_var, model_or_proxy.new)
     end
